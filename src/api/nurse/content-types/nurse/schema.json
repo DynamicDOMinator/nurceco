@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "nurses",
+  "info": {
+    "singularName": "nurse",
+    "pluralName": "nurses",
+    "displayName": "Nurses-Team",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Experience": {
+      "type": "string"
+    },
+    "Rate": {
+      "type": "string"
+    },
+    "ProfilePhoto": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "SkillOne": {
+      "type": "string"
+    },
+    "SkillTwo": {
+      "type": "string"
+    },
+    "SkillThree": {
+      "type": "string"
+    },
+    "Age": {
+      "type": "string"
+    },
+    "nurses_teams": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::service.service",
+      "inversedBy": "services"
+    },
+    "CV": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

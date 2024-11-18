@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = ({ env }) => {
-  const client = env("DATABASE_CLIENT", "postgres");
+  const client = env("DATABASE_CLIENT", "postgres");  // تحديد PostgreSQL كعميل افتراضي
 
   const connections = {
     mysql: {
@@ -17,10 +17,7 @@ module.exports = ({ env }) => {
           ca: env("DATABASE_SSL_CA", undefined),
           capath: env("DATABASE_SSL_CAPATH", undefined),
           cipher: env("DATABASE_SSL_CIPHER", undefined),
-          rejectUnauthorized: env.bool(
-            "DATABASE_SSL_REJECT_UNAUTHORIZED",
-            true
-          ),
+          rejectUnauthorized: env.bool("DATABASE_SSL_REJECT_UNAUTHORIZED", true),
         },
       },
       pool: {
@@ -30,37 +27,30 @@ module.exports = ({ env }) => {
     },
     postgres: {
       connection: {
-        connectionString: env("DATABASE_URL"),
-        host: env("DATABASE_HOST", "localhost"),
-        port: env.int("DATABASE_PORT", 5432),
-        database: env("DATABASE_NAME", "strapi"),
-        user: env("DATABASE_USERNAME", "strapi"),
-        password: env("DATABASE_PASSWORD", "strapi"),
+        connectionString: env("DATABASE_URL"), // استخدام DATABASE_URL إذا كان لديك URL
+        host: env("DATABASE_HOST", "localhost"), // المضيف لقاعدة البيانات
+        port: env.int("DATABASE_PORT", 5432), // المنفذ الافتراضي لPostgreSQL
+        database: env("DATABASE_NAME", "strapi"), // اسم قاعدة البيانات
+        user: env("DATABASE_USERNAME", "strapi"), // اسم المستخدم
+        password: env("DATABASE_PASSWORD", "strapi"), // كلمة المرور
         ssl: env.bool("DATABASE_SSL", false) && {
           key: env("DATABASE_SSL_KEY", undefined),
           cert: env("DATABASE_SSL_CERT", undefined),
           ca: env("DATABASE_SSL_CA", undefined),
           capath: env("DATABASE_SSL_CAPATH", undefined),
           cipher: env("DATABASE_SSL_CIPHER", undefined),
-          rejectUnauthorized: env.bool(
-            "DATABASE_SSL_REJECT_UNAUTHORIZED",
-            true
-          ),
+          rejectUnauthorized: env.bool("DATABASE_SSL_REJECT_UNAUTHORIZED", true),
         },
-        schema: env("DATABASE_SCHEMA", "public"),
+        schema: env("DATABASE_SCHEMA", "public"), // يمكنك تغيير هذا إذا كانت قاعدة البيانات تستخدم سكيمات مختلفة
       },
       pool: {
-        min: env.int("DATABASE_POOL_MIN", 2),
-        max: env.int("DATABASE_POOL_MAX", 10),
+        min: env.int("DATABASE_POOL_MIN", 2), // الحد الأدنى للاتصال
+        max: env.int("DATABASE_POOL_MAX", 10), // الحد الأقصى للاتصال
       },
     },
     sqlite: {
       connection: {
-        filename: path.join(
-          __dirname,
-          "..",
-          env("DATABASE_FILENAME", ".tmp/data.db")
-        ),
+        filename: path.join(__dirname, "..", env("DATABASE_FILENAME", ".tmp/data.db")),
       },
       useNullAsDefault: true,
     },
@@ -68,9 +58,9 @@ module.exports = ({ env }) => {
 
   return {
     connection: {
-      client,
-      ...connections[client],
-      acquireConnectionTimeout: env.int("DATABASE_CONNECTION_TIMEOUT", 60000),
+      client, // عميل قاعدة البيانات
+      ...connections[client], // الاتصال بقاعدة البيانات المناسبة بناءً على العميل
+      acquireConnectionTimeout: env.int("DATABASE_CONNECTION_TIMEOUT", 60000), // الوقت المسموح به لاكتساب الاتصال
     },
   };
 };
